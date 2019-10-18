@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>写文章</title>
+  <%- include head %>
+</head>
+<body>
+
+<%- include('bar',{username:doc.username}) %>
+
+<div class="article">
+  <form action="/articles/write" method="post">
+
+    <input type="hidden" name="username" value="<%= doc.username %>"> <!--input自带属性：hidden ，隐藏input框 -->
+    <input type="hidden" name="id" value="<%= doc._id %>">
+
+		<input type="text" name="title" placeholder="请输入文章标题" value="<% doc.title %>">
+		<textarea name="content" class="xheditor"><%- doc.content %></textarea>
+    
+    <% if (doc._id) {%>
+      <input type="submit" value="修改">
+    <% } else { %>
+      <input type="submit" value="发布">
+    <% } %>
+
+	</form>
+</div>
+
+<!-- 引入xheditor 的包 -->
+<script type="text/javascript" src="/xheditor/jquery/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="/xheditor/xheditor-1.2.2.min.js"></script>
+<script type="text/javascript" src="/xheditor/xheditor_lang/zh-cn.js"></script>
+<script>
+    $('.xheditor').xheditor({ //获取到xheditor 对象
+      tools: 'full',  // 工具栏
+      skin: 'default',  //皮肤样式
+      upImgUrl: '/articles/upload',  //文件上传路径
+      html5Upload: false,  //不能使用h5上传
+      upMultiple: 1  //一次上传几张图片
+    });
+</script>
+</body>
+</html>
